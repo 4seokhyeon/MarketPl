@@ -6,6 +6,6 @@
     <dimen name="list_item_text_size2">16dp</dimen>
     <dimen name="list_item_padding">4dp</dimen>
     <dimen name="icon_size">60dp</dimen>
-    <dimen name="icon_padding">8dp</dimen>
-    <dimen name="rounded_corner_radius">150dp</dimen>
+    <dimen name="icon_padding">1dp</dimen>
+    <dimen name="rounded_corner_radius">20dp</dimen>
 </resources>
