@@ -22,10 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        android:divider="@drawable/divider_line"
-        android:dividerHeight="1dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <Button
@@ -38,6 +34,7 @@
         android:drawableRight="@drawable/arrow_size"
         android:text="내배캠동"
         android:textSize="15dp"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"

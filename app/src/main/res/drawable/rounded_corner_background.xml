@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/rounded_corner_radius" /> <!-- 변경한 부분 -->
+    <solid android:color="@android:color/white" />
+</shape>
