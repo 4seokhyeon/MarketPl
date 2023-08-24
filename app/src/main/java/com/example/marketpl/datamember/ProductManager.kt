@@ -1,4 +1,7 @@
-package com.example.marketpl
+package com.example.marketpl.datamember
+
+import com.example.marketpl.R
+import com.example.marketpl.dataclass.Product
 
 class ProductManager private constructor() {
     private val productList = mutableListOf<Product>()
@@ -126,7 +129,7 @@ class ProductManager private constructor() {
     companion object{
         private var instance: ProductManager? =null
 
-        fun getInstance(): ProductManager{
+        fun getInstance(): ProductManager {
             if(instance == null){
                 instance = ProductManager()
             }

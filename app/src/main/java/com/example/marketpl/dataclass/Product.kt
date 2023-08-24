@@ -1,4 +1,4 @@
-package com.example.marketpl
+package com.example.marketpl.dataclass
 
 data class Product(
     val imageFileName: Int, val productName: String, val productInfo: String,
