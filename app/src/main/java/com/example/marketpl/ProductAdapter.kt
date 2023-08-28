@@ -1,12 +1,12 @@
 package com.example.marketpl
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marketpl.anim.slideRight
 import com.example.marketpl.databinding.ItemViewBinding
 import com.example.marketpl.dataclass.Product
 import com.example.marketpl.datamember.OnItemClickListener
@@ -30,21 +30,16 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
         holder.bind(currentProduct)
 
         holder.itemView.setOnClickListener {
-            // 프래그먼트 전환 코드 실행
-            if (isClickable) { // 클릭 가능한 경우에만 실행
-                isClickable = false //
-                val fragment = DetailFragment()
-                val transaction =
-                    (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                transaction.setCustomAnimations(R.anim.to_right, R.anim.from_right)
-                transaction.replace(R.id.frameLayout, fragment) // 프래그먼트 컨테이너 ID
-                transaction.addToBackStack(null) // 뒤로가기 버튼으로 이전 화면으로 돌아갈 수 있도록 설정
-                transaction.commit()
-                // 클릭 이벤트를 비활성화
-                holder.itemView.postDelayed({
-                    isClickable = true
-                }, 1000)
-            }
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("productImage", currentProduct.imageFileName)
+            intent.putExtra("productName", currentProduct.productName)
+            intent.putExtra("productInfo", currentProduct.productInfo)
+            intent.putExtra("userName",currentProduct.sellName)
+            intent.putExtra("productPrice", currentProduct.price)
+            intent.putExtra("userLoc",currentProduct.address)
+            // 여기에 다른 필요한 정보들도 추가할 수 있습니다.
+            context.startActivity(intent)
+            (context as? Activity)?.slideRight()
         }
     }
 

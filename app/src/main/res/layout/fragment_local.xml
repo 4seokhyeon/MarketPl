@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView5"
         tools:ignore="MissingConstraints"
-        android:background="#ffffff"/>
+        android:background="#FF9E80"/>
 
     <TextView
         android:id="@+id/textView5"
