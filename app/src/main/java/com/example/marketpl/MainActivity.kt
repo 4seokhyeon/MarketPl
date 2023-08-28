@@ -29,6 +29,15 @@ class MainActivity : AppCompatActivity() {
 
         notificationHelper = Notification(this)
 
+
+        binding.localBtn.setOnClickListener {
+            val fragment = LocalFragment()
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frameLayout, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
         val productManager = ProductManagerImpl.getInstance()
         val products = productManager.getProducts()
 

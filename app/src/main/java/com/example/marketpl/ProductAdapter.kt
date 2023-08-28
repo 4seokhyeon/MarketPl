@@ -18,6 +18,7 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     private val productList: List<Product> = ProductManagerImpl.getInstance().getProducts()
     private var itemClickListener: OnItemClickListener? = null
+    private var isClickable = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductAdapter.ProductViewHolder {
         val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,12 +31,20 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
 
         holder.itemView.setOnClickListener {
             // 프래그먼트 전환 코드 실행
-            val fragment = DetailFragment()
-            val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.to_right,R.anim.from_right)
-            transaction.replace(R.id.frameLayout, fragment) // 프래그먼트 컨테이너 ID
-            transaction.addToBackStack(null) // 뒤로가기 버튼으로 이전 화면으로 돌아갈 수 있도록 설정
-            transaction.commit()
+            if (isClickable) { // 클릭 가능한 경우에만 실행
+                isClickable = false //
+                val fragment = DetailFragment()
+                val transaction =
+                    (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                transaction.setCustomAnimations(R.anim.to_right, R.anim.from_right)
+                transaction.replace(R.id.frameLayout, fragment) // 프래그먼트 컨테이너 ID
+                transaction.addToBackStack(null) // 뒤로가기 버튼으로 이전 화면으로 돌아갈 수 있도록 설정
+                transaction.commit()
+                // 클릭 이벤트를 비활성화
+                holder.itemView.postDelayed({
+                    isClickable = true
+                }, 1000)
+            }
         }
     }
 

@@ -30,7 +30,7 @@ class Notification(private val context: Context) {
 
         val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.sample4)
 
-        val intent = Intent(context, DetailActivity::class.java)
+        val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(
             context,

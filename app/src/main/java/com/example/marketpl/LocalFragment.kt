@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.marketpl.dataclass.Product
 
-class DetailFragment : Fragment() {
+class LocalFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view =  inflater.inflate(R.layout.fragment_detail, container, false)
+        val view =  inflater.inflate(R.layout.fragment_local, container, false)
+        view.setOnClickListener {
+            activity?.onBackPressed()
+        }
         return view
     }
 }
