@@ -22,13 +22,14 @@
                 android:layout_height="276dp"
                 android:scaleType="fitXY"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/sample5" />
+                 />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleImageView"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
+                android:textSize="20dp"
                 android:layout_marginStart="1dp"
                 android:src="@drawable/user"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,6 +102,8 @@
                 android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="28dp"
                 android:text="TextView"
@@ -113,7 +116,9 @@
                 android:id="@+id/product_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
+                android:textSize="20dp"
+                android:padding="10dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.082"
@@ -134,33 +139,42 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="47dp"
+        android:layout_height="56dp"
         android:layout_marginTop="8dp"
-
         android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar2"
-        app:srcCompat="@drawable/icon_size" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar2">
+
+        <ImageButton
+            android:id="@+id/like_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/detail_like_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbar2"
+             />
+    </LinearLayout>
+
 
     <View
         android:id="@+id/view2"
-        android:layout_width="1dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
         android:background="#39000000"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.035"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/product_price"
+        app:layout_constraintHorizontal_bias="0.014"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="@+id/toolbar2"
         app:layout_constraintVertical_bias="0.0" />
-
-
 
     <Button
         android:id="@+id/button"
@@ -170,21 +184,22 @@
         app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.935"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
+
         app:layout_constraintTop_toTopOf="@+id/toolbar2" />
+
 
     <TextView
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="TextView"
+        android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.135"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.444" />
-
+        app:layout_constraintVertical_bias="0.351" />
 
     <ImageView
         android:id="@+id/detail_back_btn"

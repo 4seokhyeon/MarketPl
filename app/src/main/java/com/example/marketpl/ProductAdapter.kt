@@ -1,6 +1,7 @@
 package com.example.marketpl
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -16,8 +17,9 @@ import java.util.Locale
 
 class ProductAdapter(private val context: Context, products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
-    private val productList: List<Product> = ProductManagerImpl.getInstance().getProducts()
+    private val productList: MutableList<Product> = products.toMutableList()
     private var itemClickListener: OnItemClickListener? = null
+
     private var isClickable = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductAdapter.ProductViewHolder {
@@ -41,6 +43,8 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
             context.startActivity(intent)
             (context as? Activity)?.slideRight()
         }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -54,8 +58,6 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
 
     inner class ProductViewHolder(private val binding: ItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-
         fun bind(product: Product) {
             binding.productImage.setImageResource(product.imageFileName)
             binding.productName.text = product.productName
@@ -67,6 +69,29 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
             val priceText = "$formattedPrice 원"
             binding.productPrice.text = priceText
 
+        }
+
+
+        init {
+            binding.root.setOnLongClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val currentProduct = productList[position]
+                    showDeleteConfirmationDialog(currentProduct, position)
+                }
+                true
+            }
+        }
+        private fun showDeleteConfirmationDialog(product: Product, position: Int) {
+            val builder = AlertDialog.Builder(binding.root.context)
+            builder.setTitle("삭제하기")
+                .setMessage("${product.productName}을(를) 삭제하시겠습니까?")
+                .setPositiveButton("삭제하기") { _, _ ->
+                    productList.removeAt(position)
+                    notifyItemRemoved(position)
+                }
+                .setNegativeButton("취소", null)
+                .show()
         }
     }
 }
