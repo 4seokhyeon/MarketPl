@@ -119,6 +119,7 @@ class ProductManagerImpl private constructor(): ProductManager{
                 40, 6
             )
         )
+
     }
     override fun getProducts(): List<Product>{
         return productList
