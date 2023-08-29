@@ -1,48 +1,59 @@
 package com.example.marketpl
-
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import com.example.marketpl.anim.slideLeft
+import androidx.appcompat.app.AppCompatActivity
+import com.example.marketpl.ProductAdapter
+import com.example.marketpl.databinding.ActivityDetailBinding
+import com.example.marketpl.datamember.ProductManagerImpl
 
 class DetailActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityDetailBinding
+    private lateinit var productAdapter: ProductAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val productImage = intent.getIntExtra("productImage", 0)
         val productName = intent.getStringExtra("productName")
         val productInfo = intent.getStringExtra("productInfo")
-        val selleraddress = intent.getStringExtra("userLoc")
+        val sellerAddress = intent.getStringExtra("userLoc")
         val sellNameValue = intent.getStringExtra("userName")
         val productPrice = intent.getIntExtra("productPrice", 0)
+        val itemIndex = intent.getIntExtra("itemIndex", -1)
 
+        binding.detil.setImageResource(productImage)
+        binding.productName.text = productName
+        binding.productInfo.text = productInfo
+        binding.userlocation.text = sellerAddress
+        binding.username.text = sellNameValue
+        binding.productPrice.text = "가격: ${productPrice}원"
 
-        val productImageView = findViewById<ImageView>(R.id.detil)
-        val productNameTextView = findViewById<TextView>(R.id.product_name)
-        val productInfoTextView = findViewById<TextView>(R.id.product_info)
-        val selleraddressTextView = findViewById<TextView>(R.id.userlocation)
-        val sellNameTextView = findViewById<TextView>(R.id.username)
-        val productPriceTextView = findViewById<TextView>(R.id.product_price)
-
-        productImageView.setImageResource(productImage)
-        productNameTextView.text = productName
-        productInfoTextView.text = productInfo
-        selleraddressTextView.text = selleraddress
-        sellNameTextView.text = sellNameValue
-        productPriceTextView.text = "가격: ${productPrice}원"
-
-        val backButton = findViewById<ImageView>(R.id.detail_back_btn)
-        backButton.setOnClickListener{
+        binding.detailBackBtn.setOnClickListener {
             onBackPressed()
-
         }
 
+        binding.likeBtn.setOnClickListener {
+            val newLikeState = !binding.likeBtn.isSelected
+            binding.likeBtn.isSelected = newLikeState
+
+            if (itemIndex != -1) {
+                val currentProduct = ProductManagerImpl.getInstance().getProducts()[itemIndex]
+                currentProduct.isLike = newLikeState
+
+                if (newLikeState) {
+                    currentProduct.likeCount++
+                } else {
+                    currentProduct.likeCount--
+                }
+                productAdapter.notifyItemChanged(itemIndex)
+            }
+        }
     }
 
     override fun onBackPressed() {
         finish()
-        slideLeft()
+
     }
 }

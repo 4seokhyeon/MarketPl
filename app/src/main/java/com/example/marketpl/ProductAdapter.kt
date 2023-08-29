@@ -1,11 +1,13 @@
 package com.example.marketpl
 
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marketpl.anim.slideRight
 import com.example.marketpl.databinding.ItemViewBinding
@@ -20,7 +22,6 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
     private val productList: MutableList<Product> = products.toMutableList()
     private var itemClickListener: OnItemClickListener? = null
 
-    private var isClickable = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductAdapter.ProductViewHolder {
         val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -51,13 +52,9 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
         return productList.size
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        itemClickListener = listener
-    }
-
-
     inner class ProductViewHolder(private val binding: ItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(product: Product) {
             binding.productImage.setImageResource(product.imageFileName)
             binding.productName.text = product.productName
@@ -93,5 +90,7 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
                 .setNegativeButton("취소", null)
                 .show()
         }
+        /*private val likeBtn:ImageButton = binding.like_btn*/
+
     }
 }
