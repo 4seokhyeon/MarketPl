@@ -1,8 +1,10 @@
 package com.example.marketpl
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,15 +44,28 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = productAdapter
 
 
-
-
-
-
         val notifiBtn: ImageView = findViewById(R.id.notifi_btn)
         notifiBtn.setOnClickListener {
             notificationHelper.showNotification()
         }
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("Debug", "MainActivity - onActivityResult: requestCode=$requestCode, resultCode=$resultCode")
+
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ProductAdapter.DETAIL_REQUEST_CODE && resultCode == RESULT_OK) {
+            val itemIndex = data?.getIntExtra("itemIndex", -1)
+            val isLiked = data?.getBooleanExtra("isLiked", false)
+            if (itemIndex != -1 && isLiked != null) {
+                if (itemIndex != null) {
+
+                    productAdapter.notifyItemChanged(itemIndex)
+                }
+            }
+        }
+    }
+
+
     override fun onBackPressed() {
         finish()
         slideLeft()

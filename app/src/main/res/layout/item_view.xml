@@ -63,33 +63,43 @@
         app:layout_constraintTop_toBottomOf="@+id/productloc"
         app:layout_constraintVertical_bias="0.186" />
 
+
     <TextView
         android:id="@+id/coment_tx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:text="16"
+        android:layout_marginStart="144dp"
+        android:text="0"
         app:drawableLeftCompat="@drawable/icon_size1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toEndOf="@+id/productImage"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.826" />
+        app:layout_constraintVertical_bias="0.843" />
+
+    <ImageView
+        android:id="@+id/likeBtn"
+        android:layout_width="18dp"
+        android:layout_height="17dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/icon_size"
+        app:layout_constraintBottom_toBottomOf="@+id/favarite_tx"
+        app:layout_constraintEnd_toStartOf="@+id/favarite_tx"
+        app:layout_constraintHorizontal_bias="0.97"
+        app:layout_constraintStart_toEndOf="@+id/coment_tx"
+        app:layout_constraintTop_toTopOf="@+id/favarite_tx"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/favarite_tx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="25"
-        app:drawableLeftCompat="@drawable/like_button"
+        android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/coment_tx"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintHorizontal_bias="0.723"
         app:layout_constraintStart_toEndOf="@+id/coment_tx"
         app:layout_constraintTop_toTopOf="@+id/coment_tx"
         app:layout_constraintVertical_bias="0.0" />
-
 
     <View
         android:layout_width="wrap_content"
