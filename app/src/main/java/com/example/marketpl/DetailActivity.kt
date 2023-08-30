@@ -23,7 +23,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         itemIndex = intent.getIntExtra("itemIndex", -1)
-        isLiked = intent.getBooleanExtra("isLiked", false)
+        isLiked = intent.getBooleanExtra("isLiked", true)
 
         val products = ProductManagerImpl.getInstance().getProducts()
         productAdapter = ProductAdapter(this, products)
@@ -58,12 +58,16 @@ class DetailActivity : AppCompatActivity() {
 
 
         binding.likeBtn.setOnClickListener {
-
-
             currentProduct?.let {
-                it.isLike = true
-                it.likeCount++
-                isLiked = true
+                if (isLiked) { // 좋아요 버튼이 이미 눌려있는 경우
+                    it.isLike = false
+                    it.likeCount--
+                    isLiked = false
+                } else { // 좋아요 버튼이 눌리지 않은 경우
+                    it.isLike = true
+                    it.likeCount++
+                    isLiked = true
+                }
                 updateLikeButtonState()
 
                 val intent = Intent()
@@ -100,6 +104,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+
         intent.putExtra("itemIndex", itemIndex)
         intent.putExtra("isLiked", isLiked)
         setResult(Activity.RESULT_OK, intent)

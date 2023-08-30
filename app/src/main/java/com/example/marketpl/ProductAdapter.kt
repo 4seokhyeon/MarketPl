@@ -44,6 +44,7 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
             intent.putExtra("productPrice", currentProduct.price)
             intent.putExtra("userLoc", currentProduct.address)
             intent.putExtra("itemIndex", position)
+            intent.putExtra("isLiked", currentProduct.isLike) // 추가
             // 여기에 다른 필요한 정보들도 추가할 수 있습니다.
             (context as? Activity)?.startActivityForResult(intent, DETAIL_REQUEST_CODE)
         }
@@ -53,24 +54,6 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
         return productList.size
     }
 
-    fun updateLikeState(index: Int, isliked: Boolean) {
-        Log.d("Debug", "ProductAdapter - updateLikeState: index=$index, isLiked=$isliked")
-
-        val currentProduct = productList[index]
-        currentProduct.isLike = isliked
-        if (isliked) {
-            currentProduct.likeCount++
-        } else {
-            currentProduct.likeCount--
-        }
-        // Dispatch the UI update using a coroutine
-        CoroutineScope(Dispatchers.Main).launch {
-            notifyItemChanged(index)
-        }
-
-        val logMessage = "ProductAdapter - Update like state, index: $index, isLiked: $isliked"
-        Log.d("DataFlow", logMessage)
-    }
     fun getItem(position: Int): Product {
         return productList[position]
     }
@@ -100,7 +83,21 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
                 binding.likeBtn.setImageResource(R.drawable.like_btn)
             }
 
-            // 좋아요 버튼 클릭 시 처리
+            binding.likeBtn.setOnClickListener {
+                if (!product.isLike) { // 좋아요 상태가 false일 때만 처리
+                    product.isLike = true
+                    product.likeCount++
+                    binding.likeBtn.setImageResource(R.drawable.like_fill)
+
+                    // 여기서 업데이트된 정보를 다시 메인 엑티비티로 전달하거나 어떤 작업을 수행할 수 있습니다.
+                } else {
+                    product.isLike = false
+                    product.likeCount--
+                    binding.likeBtn.setImageResource(R.drawable.like_btn)
+
+                    // 여기서 업데이트된 정보를 다시 메인 엑티비티로 전달하거나 어떤 작업을 수행할 수 있습니다.
+                }
+            }
 
         }
 
@@ -129,6 +126,6 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
     }
 
     companion object {
-        const val DETAIL_REQUEST_CODE = 1 // 원하는 값으로 설정
+        const val DETAIL_REQUEST_CODE = 0 // 원하는 값으로 설정
     }
 }
