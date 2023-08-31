@@ -1,10 +1,8 @@
 package com.example.marketpl
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marketpl.databinding.ActivityDetailBinding
 import com.example.marketpl.dataclass.Product
@@ -12,102 +10,66 @@ import com.example.marketpl.datamember.ProductManagerImpl
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var productAdapter: ProductAdapter
-    private var currentProduct: Product? = null
-    private var itemIndex = 0
+    private lateinit var currentProduct: Product
     private var isLiked = false
-    private var isLikeButtonClicked = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        itemIndex = intent.getIntExtra("itemIndex", -1)
-        isLiked = intent.getBooleanExtra("isLiked", true)
+        val itemIndex = intent.getIntExtra("itemIndex", -1) //index라는 정보를 다져옴
+        isLiked = intent.getBooleanExtra("isLiked", true)  // like 버튼의 여부 데이터를 가져옴 좋아요 기능.
 
-        val products = ProductManagerImpl.getInstance().getProducts()
-        productAdapter = ProductAdapter(this, products)
+        val products = ProductManagerImpl.getInstance().getProducts()  // 싱글톤인 ProductManagerImpl에 대한 리스트를 가져와 products에 저장
+        currentProduct = products[itemIndex]  //리스트에 있는 정보를 currentProduct에 저장
 
-        currentProduct = productAdapter.getItem(itemIndex)
-        updateLikeButtonState()
+        setBindings() //메소드 호출
+        setLiker()
+    }
 
-        val productImage = intent.getIntExtra("productImage", 0)
-        val productName = intent.getStringExtra("productName")
-        val productInfo = intent.getStringExtra("productInfo")
-        val sellerAddress = intent.getStringExtra("userLoc")
-        val sellNameValue = intent.getStringExtra("userName")
-        val productPrice = intent.getIntExtra("productPrice", 0)
-
-        binding.detil.setImageResource(productImage)
-        binding.productName.text = productName
-        binding.productInfo.text = productInfo
-        binding.userlocation.text = sellerAddress
-        binding.username.text = sellNameValue
-        binding.productPrice.text = "가격: ${productPrice}원"
-
-        productAdapter = ProductAdapter(this, products)
-
-        binding.detailBackBtn.setOnClickListener {
-            onBackPressed()
+    private fun setBindings() { //각 내용을 바인딩한 메소드
+        binding.apply {
+            val product = currentProduct
+            detil.setImageResource(product.imageFileName)
+            productName.text = product.productName
+            productInfo.text = product.productInfo
+            userlocation.text = product.address
+            username.text = product.sellName
+            productPrice.text = "가격: ${product.price}원"
+            updateLikeButtonState()
         }
+    }
 
-        binding.likeBtn.setImageResource(
-            if (isLiked) R.drawable.like_fill
-            else R.drawable.like_btn
-        )
-
+    private fun setLiker() {
+        binding.detailBackBtn.setOnClickListener { onBackPressed() }  //xml 백 버튼
 
         binding.likeBtn.setOnClickListener {
-            currentProduct?.let {
-                if (isLiked) { // 좋아요 버튼이 이미 눌려있는 경우
-                    it.isLike = false
-                    it.likeCount--
-                    isLiked = false
-                } else { // 좋아요 버튼이 눌리지 않은 경우
-                    it.isLike = true
-                    it.likeCount++
-                    isLiked = true
-                }
-                updateLikeButtonState()
-
-                val intent = Intent()
-                intent.putExtra("itemIndex", itemIndex)
-                intent.putExtra("isLiked", isLiked)
-                setResult(Activity.RESULT_OK, intent)
-            }
-
+            isLiked = !isLiked  //변수 뒤집기
+            currentProduct.isLike = isLiked //상태를 변경할 때 마다 좋아요 상태 변경
+            currentProduct.likeCount += if (isLiked) 1 else -1
+            updateLikeButtonState()
+            setResultAndFinish()
         }
     }
 
-
-    private fun updateLikeButtonState() {
+    private fun updateLikeButtonState() { //좋아요 버튼 변경 메소드
         binding.likeBtn.setImageResource(
             if (isLiked) R.drawable.like_fill
             else R.drawable.like_btn
         )
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ProductAdapter.DETAIL_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val updatedItemIndex = data?.getIntExtra("itemIndex", -1)
-            val updatedIsLiked = data?.getBooleanExtra("isLiked", false)
-
-            if (updatedItemIndex != -1 && updatedIsLiked != null) {
-                if (updatedItemIndex == itemIndex) { // 현재 디테일 페이지와 관련된 업데이트일 경우에만 처리
-                    isLiked = updatedIsLiked
-                    updateLikeButtonState()
-                }
-            }
+    private fun setResultAndFinish() {  //액티비티의 결과를 종료 메소드
+        val resultIntent = Intent().apply {
+            putExtra("itemIndex", intent.getIntExtra("itemIndex", -1))
+            putExtra("isLiked", isLiked)
         }
+        setResult(Activity.RESULT_OK, resultIntent) //액티비티가 종료되면서 결과를 intent
+
     }
 
     override fun onBackPressed() {
-
-        intent.putExtra("itemIndex", itemIndex)
-        intent.putExtra("isLiked", isLiked)
-        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 }
