@@ -33,7 +33,7 @@ class DetailActivity : AppCompatActivity() {
 
         coordinatorLayout = binding.coordinatorLayout
 
-        setBindings() //메소드 호
+        setBindings()
         setLiker()
     }
 
