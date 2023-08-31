@@ -1,13 +1,11 @@
 package com.example.marketpl
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.marketpl.anim.slideLeft
+import androidx.recyclerview.widget.RecyclerView
 import com.example.marketpl.databinding.ActivityMainBinding
 import com.example.marketpl.datamember.ProductManagerImpl
 
@@ -23,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         setBindings()
         setLocal()
+        setUpBtn()
     }
 
     private fun setBindings() {
@@ -43,6 +42,22 @@ class MainActivity : AppCompatActivity() {
 
         binding.notifiBtn.setOnClickListener {
             notificationHelper.showNotification()
+        }
+    }
+    private fun setUpBtn() {
+        binding.floatingActionButton.visibility = View.GONE // 일단 보이지 않도록 설정
+
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 && !binding.floatingActionButton.isShown) { // 아래로 스크롤하면서 버튼이 보이지 않는 경우
+                    binding.floatingActionButton.show()
+                } else if (dy < 0 && binding.floatingActionButton.isShown) { // 위로 스크롤하면서 버튼이 보이는 경우
+                    binding.floatingActionButton.hide()
+                }
+            }
+        })
+        binding.floatingActionButton.setOnClickListener {
+            binding.recyclerView.smoothScrollToPosition(0)
         }
     }
 
