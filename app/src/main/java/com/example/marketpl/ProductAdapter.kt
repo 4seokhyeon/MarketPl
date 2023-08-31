@@ -47,6 +47,7 @@ class ProductAdapter(private val context: Context, products: List<Product>) :
             intent.putExtra("isLiked", currentProduct.isLike) // 추가
             // 여기에 다른 필요한 정보들도 추가할 수 있습니다.
             (context as? Activity)?.startActivityForResult(intent, DETAIL_REQUEST_CODE)
+
         }
     }
 

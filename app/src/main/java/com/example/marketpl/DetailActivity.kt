@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marketpl.anim.slideLeft
+import com.example.marketpl.anim.slideRight
 import com.example.marketpl.databinding.ActivityDetailBinding
 import com.example.marketpl.dataclass.Product
 import com.example.marketpl.datamember.ProductManagerImpl
@@ -24,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
         val products = ProductManagerImpl.getInstance().getProducts()  // 싱글톤인 ProductManagerImpl에 대한 리스트를 가져와 products에 저장
         currentProduct = products[itemIndex]  //리스트에 있는 정보를 currentProduct에 저장
 
-        setBindings() //메소드 호출
+        setBindings() //메소드 호
         setLiker()
     }
 
@@ -42,7 +44,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setLiker() {
-        binding.detailBackBtn.setOnClickListener { onBackPressed() }  //xml 백 버튼
+        binding.detailBackBtn.setOnClickListener { slideRight() }  //xml 백 버튼
 
         binding.likeBtn.setOnClickListener {
             isLiked = !isLiked  //변수 뒤집기
@@ -70,6 +72,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        slideLeft()
         finish()
     }
 }

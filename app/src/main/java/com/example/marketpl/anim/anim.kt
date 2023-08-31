@@ -6,15 +6,11 @@ import com.example.marketpl.R
 
 fun Activity.slideLeft() {
     overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_left_exit)
+
+
 }
 
 fun Activity.slideRight() {
     overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_right_exit)
-}
-fun imgPressed(btn: ImageButton){
-    btn.setOnClickListener{
-        btn.isSelected = btn.isSelected != true
-
-    }
-
+    finish()
 }
